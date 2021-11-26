@@ -3,7 +3,7 @@ name = "interior_mutability_pointer"
 version = "0.1.0"
 edition = "2018"
 readme = "readme.md"
-license-file = "LICENCE"
+license-file = "LICENSE"
 homepage = "https://github.com/samhamnam/interior_mutability_pointer"
 repository = "https://github.com/samhamnam/interior_mutability_pointer"
 
