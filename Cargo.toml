@@ -3,6 +3,11 @@ name = "interior_mutability_pointer"
 version = "0.1.0"
 edition = "2018"
 readme = "readme.md"
+licence-file = "LICENCE"
+homepage = "https://github.com/samhamnam/interior_mutability_pointer"
+repository = "https://github.com/samhamnam/interior_mutability_pointer"
+
+description = "A wrapper around `Rc<RefCell<T>>` allowing immediate access to inner methods."
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
 [dependencies]
