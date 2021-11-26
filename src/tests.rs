@@ -584,9 +584,9 @@ mod fn_test {
     use crate::Imp;
     #[test]
     fn fn_test() {
-        let mut k = 5;
+        let mut _k = 5;
         let mut p = Imp::new(move || {
-            k += 1;
+            _k += 1;
             println!("yo")
         });
         p();
