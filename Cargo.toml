@@ -5,6 +5,7 @@ edition = "2018"
 readme = "readme.md"
 license = "MIT"
 license-file = "LICENSE"
+documentation = "https://docs.rs/interior_mutability_pointer/"
 homepage = "https://github.com/samhamnam/interior_mutability_pointer"
 repository = "https://github.com/samhamnam/interior_mutability_pointer"
 
