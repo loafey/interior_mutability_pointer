@@ -4,12 +4,16 @@ mod tests;
 use std::{cell::RefCell, rc::Rc};
 
 #[derive(Clone)]
-pub struct Imp<T>(Rc<RefCell<T>>);
+pub struct Imp<T> {
+    v: Rc<RefCell<T>>,
+}
 
 #[allow(unused)]
 impl<T> Imp<T> {
     pub fn new(t: T) -> Self {
-        Self(Rc::new(RefCell::new(t)))
+        Self {
+            v: Rc::new(RefCell::new(t)),
+        }
     }
 }
 
@@ -25,13 +29,13 @@ mod deref_impl {
         type Target = T;
 
         fn deref(&self) -> &Self::Target {
-            unsafe { self.0.try_borrow_unguarded().unwrap() }
+            unsafe { self.v.try_borrow_unguarded().unwrap() }
         }
     }
 
     impl<T> DerefMut for Imp<T> {
         fn deref_mut(&mut self) -> &mut Self::Target {
-            unsafe { &mut *self.0.as_ptr() }
+            unsafe { &mut *self.v.as_ptr() }
         }
     }
 }

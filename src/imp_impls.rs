@@ -72,13 +72,13 @@ mod debug_display_impl {
 
     impl<T: Debug> Debug for Imp<T> {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-            self.0.borrow().fmt(f)
+            self.v.borrow().fmt(f)
         }
     }
 
     impl<T: Display> Display for Imp<T> {
         fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::result::Result<(), std::fmt::Error> {
-            self.0.borrow().fmt(f)
+            self.v.borrow().fmt(f)
         }
     }
 }
@@ -158,12 +158,12 @@ mod add_assign_impl {
 
     impl<T: AddAssign<T> + Copy + AddAssign> AddAssign for Imp<T> {
         fn add_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().add_assign(*other.0.borrow());
+            self.v.borrow_mut().add_assign(*other.v.borrow());
         }
     }
     impl<T: AddAssign<T> + Copy + AddAssign> AddAssign<T> for Imp<T> {
         fn add_assign(&mut self, other: T) {
-            self.0.borrow_mut().add_assign(other);
+            self.v.borrow_mut().add_assign(other);
         }
     }
 }
@@ -207,12 +207,12 @@ mod bitand_assign_impl {
 
     impl<T: BitAndAssign<T> + Copy + BitAndAssign> BitAndAssign for Imp<T> {
         fn bitand_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().bitand_assign(*other.0.borrow());
+            self.v.borrow_mut().bitand_assign(*other.v.borrow());
         }
     }
     impl<T: BitAndAssign<T> + Copy + BitAndAssign> BitAndAssign<T> for Imp<T> {
         fn bitand_assign(&mut self, other: T) {
-            self.0.borrow_mut().bitand_assign(other);
+            self.v.borrow_mut().bitand_assign(other);
         }
     }
 }
@@ -255,12 +255,12 @@ mod bitor_assign_impl {
 
     impl<T: BitOrAssign<T> + Copy + BitOrAssign> BitOrAssign for Imp<T> {
         fn bitor_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().bitor_assign(*other.0.borrow());
+            self.v.borrow_mut().bitor_assign(*other.v.borrow());
         }
     }
     impl<T: BitOrAssign<T> + Copy + BitOrAssign> BitOrAssign<T> for Imp<T> {
         fn bitor_assign(&mut self, other: T) {
-            self.0.borrow_mut().bitor_assign(other);
+            self.v.borrow_mut().bitor_assign(other);
         }
     }
 }
@@ -303,12 +303,12 @@ mod bitxor_assign_impl {
 
     impl<T: BitXorAssign<T> + Copy + BitXorAssign> BitXorAssign for Imp<T> {
         fn bitxor_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().bitxor_assign(*other.0.borrow());
+            self.v.borrow_mut().bitxor_assign(*other.v.borrow());
         }
     }
     impl<T: BitXorAssign<T> + Copy + BitXorAssign> BitXorAssign<T> for Imp<T> {
         fn bitxor_assign(&mut self, other: T) {
-            self.0.borrow_mut().bitxor_assign(other);
+            self.v.borrow_mut().bitxor_assign(other);
         }
     }
 }
@@ -324,7 +324,7 @@ mod not_impl {
         type Output = Imp<T::Output>;
 
         fn not(self) -> Self::Output {
-            Imp::new(self.0.borrow().not())
+            Imp::new(self.v.borrow().not())
         }
     }
 }
@@ -367,12 +367,12 @@ mod div_assign_impl {
 
     impl<T: DivAssign<T> + Copy + DivAssign> DivAssign for Imp<T> {
         fn div_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().div_assign(*other.0.borrow());
+            self.v.borrow_mut().div_assign(*other.v.borrow());
         }
     }
     impl<T: DivAssign<T> + Copy + DivAssign> DivAssign<T> for Imp<T> {
         fn div_assign(&mut self, other: T) {
-            self.0.borrow_mut().div_assign(other);
+            self.v.borrow_mut().div_assign(other);
         }
     }
 }
@@ -415,12 +415,12 @@ mod mul_assign_impl {
 
     impl<T: MulAssign<T> + Copy + MulAssign> MulAssign for Imp<T> {
         fn mul_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().mul_assign(*other.0.borrow());
+            self.v.borrow_mut().mul_assign(*other.v.borrow());
         }
     }
     impl<T: MulAssign<T> + Copy + MulAssign> MulAssign<T> for Imp<T> {
         fn mul_assign(&mut self, other: T) {
-            self.0.borrow_mut().mul_assign(other);
+            self.v.borrow_mut().mul_assign(other);
         }
     }
 }
@@ -436,7 +436,7 @@ mod neg_impl {
         type Output = Imp<T::Output>;
 
         fn neg(self) -> Self::Output {
-            Imp::new(self.0.borrow().neg())
+            Imp::new(self.v.borrow().neg())
         }
     }
 }
@@ -479,12 +479,12 @@ mod rem_assign_impl {
 
     impl<T: RemAssign<T> + Copy + RemAssign> RemAssign for Imp<T> {
         fn rem_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().rem_assign(*other.0.borrow());
+            self.v.borrow_mut().rem_assign(*other.v.borrow());
         }
     }
     impl<T: RemAssign<T> + Copy + RemAssign> RemAssign<T> for Imp<T> {
         fn rem_assign(&mut self, other: T) {
-            self.0.borrow_mut().rem_assign(other);
+            self.v.borrow_mut().rem_assign(other);
         }
     }
 }
@@ -527,12 +527,12 @@ mod shl_assign_impl {
 
     impl<T: ShlAssign<T> + Copy + ShlAssign> ShlAssign for Imp<T> {
         fn shl_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().shl_assign(*other.0.borrow());
+            self.v.borrow_mut().shl_assign(*other.v.borrow());
         }
     }
     impl<T: ShlAssign<T> + Copy + ShlAssign> ShlAssign<T> for Imp<T> {
         fn shl_assign(&mut self, other: T) {
-            self.0.borrow_mut().shl_assign(other);
+            self.v.borrow_mut().shl_assign(other);
         }
     }
 }
@@ -575,12 +575,12 @@ mod shr_assign_impl {
 
     impl<T: ShrAssign<T> + Copy + ShrAssign> ShrAssign for Imp<T> {
         fn shr_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().shr_assign(*other.0.borrow());
+            self.v.borrow_mut().shr_assign(*other.v.borrow());
         }
     }
     impl<T: ShrAssign<T> + Copy + ShrAssign> ShrAssign<T> for Imp<T> {
         fn shr_assign(&mut self, other: T) {
-            self.0.borrow_mut().shr_assign(other);
+            self.v.borrow_mut().shr_assign(other);
         }
     }
 }
@@ -622,12 +622,12 @@ mod sub_assign_impl {
 
     impl<T: SubAssign<T> + Copy + SubAssign> SubAssign for Imp<T> {
         fn sub_assign(&mut self, other: Imp<T>) {
-            self.0.borrow_mut().sub_assign(*other.0.borrow());
+            self.v.borrow_mut().sub_assign(*other.v.borrow());
         }
     }
     impl<T: SubAssign<T> + Copy + SubAssign> SubAssign<T> for Imp<T> {
         fn sub_assign(&mut self, other: T) {
-            self.0.borrow_mut().sub_assign(other);
+            self.v.borrow_mut().sub_assign(other);
         }
     }
 }
