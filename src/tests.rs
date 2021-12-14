@@ -3,6 +3,25 @@
 #![allow(clippy::bool_assert_comparison)]
 #![allow(clippy::float_cmp)]
 
+mod clone_without_t {
+    use crate::Imp;
+    #[derive(Debug)]
+    struct NonCloneable {
+        _val: i32,
+    }
+
+    #[test]
+    fn clone_test() {
+        let nc = NonCloneable { _val: 0 };
+        let mut i = Imp::new(nc);
+        let p = i.clone();
+
+        i._val += 100;
+
+        assert_eq!(i._val, p._val);
+    }
+}
+
 mod display {
     use crate::Imp;
 

@@ -33,7 +33,6 @@ use std::{cell::RefCell, rc::Rc};
 /// println!("{:?} {:?}", k, p); // Prints "yo yo"
 /// ```
 
-#[derive(Clone)]
 pub struct Imp<T> {
     v: Rc<RefCell<T>>,
 }
@@ -57,6 +56,20 @@ impl<T> Imp<T> {
     pub fn new(t: T) -> Self {
         Self {
             v: Rc::new(RefCell::new(t)),
+        }
+    }
+}
+
+/*
+    Implements cloning the pointer.
+*/
+mod clone_impl {
+    use super::Imp;
+    use std::clone::Clone;
+
+    impl<T> Clone for Imp<T> {
+        fn clone(&self) -> Self {
+            Self { v: self.v.clone() }
         }
     }
 }
