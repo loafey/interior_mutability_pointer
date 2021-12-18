@@ -3,6 +3,19 @@
 #![allow(clippy::bool_assert_comparison)]
 #![allow(clippy::float_cmp)]
 
+#[cfg(feature = "compile_failure")]
+mod compile_failures {
+    use crate::Imp;
+
+    #[test]
+    fn mem_drop() {
+        let k = {
+            let i = Imp::new(vec![0]);
+            *i
+        };
+    }
+}
+
 mod clone_without_t {
     use crate::Imp;
     #[derive(Debug)]
