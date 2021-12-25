@@ -1,8 +1,9 @@
 [package]
 name = "interior_mutability_pointer"
-version = "0.3.0"
+version = "0.3.1"
 edition = "2021"
 readme = "readme.md"
+license = "MIT"
 license-file = "LICENSE"
 documentation = "https://docs.rs/interior_mutability_pointer/"
 homepage = "https://github.com/samhamnam/interior_mutability_pointer"
