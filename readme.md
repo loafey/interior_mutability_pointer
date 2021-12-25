@@ -24,3 +24,74 @@ let mut p = k.clone(); // Clone the pointer.
 p.push_str("yo");
 println!("{:?} {:?}", k, p); // Prints "yo yo"
 ```
+Also supports dynamic dispatch for all your trait ojects, in both mutable and inmutable contexts!
+```rs
+trait Animal {
+    fn sound(&self) -> &'static str;
+    fn volume(&self) -> i32;
+    fn set_volume(&mut self, v: i32);
+}
+
+#[derive(Clone, Copy)]
+struct Sheep {
+    volume: i32,
+}
+impl Animal for Sheep {
+    fn sound(&self) -> &'static str {
+        "baah"
+    }
+
+    fn volume(&self) -> i32 {
+        self.volume
+    }
+
+    fn set_volume(&mut self, v: i32) {
+        self.volume = v;
+    }
+}
+
+#[derive(Clone, Copy)]
+struct Dog {
+    volume: i32,
+}
+impl Animal for Dog {
+    fn sound(&self) -> &'static str {
+        "bark"
+    }
+
+    fn volume(&self) -> i32 {
+        self.volume
+    }
+
+    fn set_volume(&mut self, v: i32) {
+        self.volume = v;
+    }
+}
+```
+```rs
+let s = Sheep { volume: 10 };
+let d = Sheep { volume: 15 };
+
+let mut rc_refcell: Vec<Rc<RefCell<dyn Animal>>> =
+    vec![Rc::new(RefCell::new(s)), Rc::new(RefCell::new(d))];
+let mut imp: Vec<Imp<dyn Animal>> = vec![Imp::new(s), Imp::new(d)];
+
+rc_refcell.iter_mut().for_each(|a| {
+    let v = a.borrow().volume();
+    a.borrow_mut().set_volume(v * 2);
+});
+
+imp.iter_mut().for_each(|a| {
+    let v = a.volume();
+    a.set_volume(v * 2);
+});
+
+let rc_refcell = rc_refcell
+    .iter()
+    .map(|p| p.borrow().volume())
+    .collect::<Vec<_>>();
+let imp = imp.iter().map(|p| p.volume()).collect::<Vec<_>>();
+
+println!("{:?}", rc_refcell); // Prints [20, 30]
+println!("{:?}", imp);        // Prints [20, 30]
+```
