@@ -5,14 +5,123 @@
 
 #[cfg(feature = "compile_failure")]
 mod compile_failures {
+    use std::ops::DerefMut;
+
     use crate::Imp;
 
     #[test]
     fn mem_drop() {
-        let k = {
+        let _ = {
             let i = Imp::new(vec![0]);
             *i
         };
+    }
+
+    #[test]
+    fn mut_mem_drop() {
+        let _ = {
+            let mut i = Imp::new(vec![0]);
+            i.deref_mut()
+        };
+    }
+}
+
+// Just ensure this compiles, as it is possible with Rc<RefCell<T>>
+// and should work with Imp<T>
+mod dynamic_dispatch {
+    use std::{cell::RefCell, ops::Deref, rc::Rc};
+
+    use crate::Imp;
+
+    trait Animal {
+        fn sound(&self) -> &'static str;
+        fn volume(&self) -> i32;
+        fn set_volume(&mut self, v: i32);
+    }
+
+    #[derive(Clone, Copy)]
+    struct Sheep {
+        volume: i32,
+    }
+    impl Animal for Sheep {
+        fn sound(&self) -> &'static str {
+            "baah"
+        }
+
+        fn volume(&self) -> i32 {
+            self.volume
+        }
+
+        fn set_volume(&mut self, v: i32) {
+            self.volume = v;
+        }
+    }
+
+    #[derive(Clone, Copy)]
+    struct Dog {
+        volume: i32,
+    }
+    impl Animal for Dog {
+        fn sound(&self) -> &'static str {
+            "bark"
+        }
+
+        fn volume(&self) -> i32 {
+            self.volume
+        }
+
+        fn set_volume(&mut self, v: i32) {
+            self.volume = v;
+        }
+    }
+
+    #[test]
+    fn test() {
+        let s = Sheep { volume: 10 };
+        let d = Sheep { volume: 15 };
+        let rc_refcell: Vec<Rc<RefCell<dyn Animal>>> =
+            vec![Rc::new(RefCell::new(s)), Rc::new(RefCell::new(d))];
+        let rc: Vec<Rc<dyn Animal>> = vec![Rc::new(s), Rc::new(d)];
+        let imp: Vec<Imp<dyn Animal>> = vec![Imp::new(s), Imp::new(d)];
+
+        let rc_refcell = rc_refcell
+            .iter()
+            .map(|p| p.borrow().sound())
+            .collect::<Vec<_>>();
+        let rc = rc.iter().map(|p| p.sound()).collect::<Vec<_>>();
+        let imp = imp.iter().map(|p| p.sound()).collect::<Vec<_>>();
+
+        assert!((rc_refcell == rc) && (rc == imp));
+    }
+
+    #[test]
+    fn test_mut() {
+        let s = Sheep { volume: 10 };
+        let d = Sheep { volume: 15 };
+
+        let mut rc_refcell: Vec<Rc<RefCell<dyn Animal>>> =
+            vec![Rc::new(RefCell::new(s)), Rc::new(RefCell::new(d))];
+        let mut imp: Vec<Imp<dyn Animal>> = vec![Imp::new(s), Imp::new(d)];
+
+        rc_refcell.iter_mut().for_each(|a| {
+            let v = a.borrow().volume();
+            a.borrow_mut().set_volume(v * 2);
+        });
+
+        imp.iter_mut().for_each(|a| {
+            let v = a.volume();
+            a.set_volume(v * 2);
+        });
+
+        let rc_refcell = rc_refcell
+            .iter()
+            .map(|p| p.borrow().volume())
+            .collect::<Vec<_>>();
+        let imp = imp.iter().map(|p| p.volume()).collect::<Vec<_>>();
+
+        assert_eq!(&rc_refcell, &[20, 30]);
+        assert_eq!(&imp, &[20, 30]);
+        assert!(rc_refcell == imp);
     }
 }
 
@@ -118,7 +227,7 @@ mod order_box {
         let p1 = Imp::new(4);
         let p2 = Imp::new(5);
 
-        assert!(!(p2 < p1));
+        assert!(p2 >= p1);
     }
     #[test]
     fn greater_ref() {
@@ -132,7 +241,7 @@ mod order_box {
         let p1 = Imp::new(6);
         let p2 = Imp::new(5);
 
-        assert!(!(p2 > p1));
+        assert!(p2 <= p1);
     }
 
     #[test]
@@ -147,7 +256,7 @@ mod order_box {
         let p1 = Imp::new(6);
         let p2 = Imp::new(5);
 
-        assert!(!(p2 >= p1));
+        assert!(p2 < p1);
     }
 }
 
@@ -166,7 +275,7 @@ mod order_inner {
         let p1 = Imp::new(4);
         let p2 = 3;
 
-        assert!(!(p1 < p2));
+        assert!(p1 >= p2);
     }
     #[test]
     fn greater_ref() {
@@ -180,7 +289,7 @@ mod order_inner {
         let p1 = Imp::new(6);
         let p2 = 7;
 
-        assert!(!(p1 > p2));
+        assert!(p1 <= p2);
     }
 
     #[test]
@@ -195,7 +304,7 @@ mod order_inner {
         let p1 = Imp::new(6);
         let p2 = 7;
 
-        assert!(!(p1 >= p2));
+        assert!(p1 < p2);
     }
 }
 

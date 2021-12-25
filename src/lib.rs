@@ -1,3 +1,7 @@
+#![feature(dispatch_from_dyn)]
+#![feature(unsize)]
+#![feature(coerce_unsized)]
+
 mod imp_impls;
 mod tests;
 
@@ -33,7 +37,7 @@ use std::{cell::RefCell, rc::Rc};
 /// println!("{:?} {:?}", k, p); // Prints "yo yo"
 /// ```
 
-pub struct Imp<T> {
+pub struct Imp<T: ?Sized> {
     v: Rc<RefCell<T>>,
 }
 
@@ -78,11 +82,40 @@ mod clone_impl {
     Allows access to the inner methods from T.
 */
 mod deref_impl {
+    use std::{
+        marker::Unsize,
+        ops::{CoerceUnsized, Deref, DerefMut, DispatchFromDyn},
+    };
+
+    use super::Imp;
+
+    impl<T: ?Sized + Unsize<U>, U: ?Sized> DispatchFromDyn<Imp<U>> for Imp<T> {}
+    impl<T: ?Sized + Unsize<U>, U: ?Sized> CoerceUnsized<Imp<U>> for Imp<T> {}
+
+    impl<T: ?Sized> Deref for Imp<T> {
+        type Target = T;
+
+        fn deref(&self) -> &Self::Target {
+            unsafe { &*self.v.as_ptr() }
+        }
+    }
+
+    impl<T: ?Sized> DerefMut for Imp<T> {
+        fn deref_mut(&mut self) -> &mut Self::Target {
+            unsafe { &mut *self.v.as_ptr() }
+        }
+    }
+}
+
+/*
+    Allows access to the inner methods from dyn Trait.
+*/
+/*mod deref_trait_impl {
     use std::ops::{Deref, DerefMut};
 
     use super::Imp;
 
-    impl<T> Deref for Imp<T> {
+    impl<T: U, U> Deref for Imp<dyn T> {
         type Target = T;
 
         fn deref(&self) -> &Self::Target {
@@ -96,3 +129,4 @@ mod deref_impl {
         }
     }
 }
+*/
