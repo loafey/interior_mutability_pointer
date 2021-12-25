@@ -106,27 +106,3 @@ mod deref_impl {
         }
     }
 }
-
-/*
-    Allows access to the inner methods from dyn Trait.
-*/
-/*mod deref_trait_impl {
-    use std::ops::{Deref, DerefMut};
-
-    use super::Imp;
-
-    impl<T: U, U> Deref for Imp<dyn T> {
-        type Target = T;
-
-        fn deref(&self) -> &Self::Target {
-            unsafe { self.v.try_borrow_unguarded().unwrap() }
-        }
-    }
-
-    impl<T> DerefMut for Imp<T> {
-        fn deref_mut(&mut self) -> &mut Self::Target {
-            unsafe { &mut *self.v.as_ptr() }
-        }
-    }
-}
-*/
