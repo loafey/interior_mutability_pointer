@@ -1,3 +1,7 @@
+![crates.io](https://img.shields.io/crates/v/interior_mutability_pointer.svg)
+![downloads](https://img.shields.io/crates/d/interior_mutability_pointer)
+![docs.rs](https://img.shields.io/docsrs/interior_mutability_pointer)
+
 A wrapper around `Rc<RefCell<T>>` allowing immediate access to inner methods,
 without the need for `.borrow()` or `.borrow_mut()`,
 allowing for a more seamless pointer experience.
