@@ -7,7 +7,7 @@ license-file = "LICENSE"
 documentation = "https://docs.rs/interior_mutability_pointer/"
 homepage = "https://github.com/samhamnam/interior_mutability_pointer"
 repository = "https://github.com/samhamnam/interior_mutability_pointer"
-keywords = ["utility", "memory", "pointer", "interior mutability", "cell"]
+keywords = ["utility", "memory", "pointer", "interior_mutability", "cell"]
 categories = ["rust-patterns"]
 
 description = "A wrapper around `Rc<RefCell<T>>` allowing immediate access to inner methods."
