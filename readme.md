@@ -70,7 +70,7 @@ impl Animal for Dog {
 ```
 ```rs
 let s = Sheep { volume: 10 };
-let d = Sheep { volume: 15 };
+let d = Dog { volume: 15 };
 
 let mut rc_refcell: Vec<Rc<RefCell<dyn Animal>>> =
     vec![Rc::new(RefCell::new(s)), Rc::new(RefCell::new(d))];

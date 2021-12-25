@@ -78,7 +78,7 @@ mod dynamic_dispatch {
     #[test]
     fn test() {
         let s = Sheep { volume: 10 };
-        let d = Sheep { volume: 15 };
+        let d = Dog { volume: 15 };
         let rc_refcell: Vec<Rc<RefCell<dyn Animal>>> =
             vec![Rc::new(RefCell::new(s)), Rc::new(RefCell::new(d))];
         let rc: Vec<Rc<dyn Animal>> = vec![Rc::new(s), Rc::new(d)];
@@ -97,7 +97,7 @@ mod dynamic_dispatch {
     #[test]
     fn test_mut() {
         let s = Sheep { volume: 10 };
-        let d = Sheep { volume: 15 };
+        let d = Dog { volume: 15 };
 
         let mut rc_refcell: Vec<Rc<RefCell<dyn Animal>>> =
             vec![Rc::new(RefCell::new(s)), Rc::new(RefCell::new(d))];
