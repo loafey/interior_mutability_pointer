@@ -33,6 +33,25 @@ impl<T> Imp<T> {
             v: Rc::new(RefCell::new(t)),
         }
     }
+
+    /// Returns true if two pointers are equal
+    ///
+    /// # Arguments
+    /// * `this` - A pointer to compare
+    /// * `other` - The other pointer to compare to
+    ///
+    /// # Examples
+    /// ```
+    /// use interior_mutability_pointer::Imp;
+    /// let p1 = Imp::new(String::new());
+    /// let p2 = p1.clone();
+    /// let p3 = Imp::new(String::new());
+    /// println!("{}", Imp::ptr_eq(&p1, &p2)); // Prints true
+    /// println!("{}", Imp::ptr_eq(&p1, &p3)); // Prints false
+    /// ```
+    pub fn ptr_eq(this: &Self, other: &Self) -> bool {
+        Rc::ptr_eq(&this.v, &other.v)
+    }
 }
 
 /*

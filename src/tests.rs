@@ -26,6 +26,25 @@ mod compile_failures {
     }
 }
 
+// Test equality
+mod ptr_eq {
+    use crate::Imp;
+
+    #[test]
+    fn non_equal() {
+        let p1 = Imp::new(String::new());
+        let p2 = Imp::new(String::new());
+        assert!(!Imp::ptr_eq(&p1, &p2));
+    }
+
+    #[test]
+    fn equal() {
+        let p1 = Imp::new(String::new());
+        let p2 = p1.clone();
+        assert!(Imp::ptr_eq(&p1, &p2));
+    }
+}
+
 // Just ensure this compiles, as it is possible with Rc<RefCell<T>>
 // and should work with Imp<T>
 mod dynamic_dispatch {
