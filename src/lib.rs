@@ -61,7 +61,7 @@ mod clone_impl {
     use super::Imp;
     use std::clone::Clone;
 
-    impl<T> Clone for Imp<T> {
+    impl<T: ?Sized> Clone for Imp<T> {
         fn clone(&self) -> Self {
             Self { v: self.v.clone() }
         }

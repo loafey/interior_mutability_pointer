@@ -142,6 +142,15 @@ mod dynamic_dispatch {
         assert_eq!(&imp, &[20, 30]);
         assert!(rc_refcell == imp);
     }
+
+    // Thiss just needs to compile.
+    #[test]
+    fn clone_ref() {
+        let v: Vec<Imp<dyn Animal>> = vec![Imp::new(Dog { volume: 10 })];
+        v.iter().for_each(|i| {
+            let _ = i.clone();
+        });
+    }
 }
 
 mod clone_without_t {
