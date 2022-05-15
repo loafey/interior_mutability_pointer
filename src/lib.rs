@@ -24,7 +24,7 @@ impl<T> Imp<T> {
     ///
     /// ```
     /// use interior_mutability_pointer::Imp;
-    /// let p = Imp::new(String::new());
+    /// let mut p = Imp::new(String::new());
     /// let p2 = p.clone();
     /// p.push_str("yoo"); // Modifies the inner value of both p and p2.
     /// ```
