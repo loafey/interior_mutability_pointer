@@ -2,6 +2,12 @@
 ![downloads](https://img.shields.io/crates/d/interior_mutability_pointer)
 ![docs.rs](https://img.shields.io/docsrs/interior_mutability_pointer)
 
+# Safety
+The `DerefMut` implementation is unsound due to this library essentially working around the runtime safety provided
+by using `RefCell`. See [Issue #2](https://github.com/samhamnam/interior_mutability_pointer/issues/2).\
+Due to this `Imp::new(..)` has been marked as `unsafe`.
+
+# Interior Mutability Monitor
 A wrapper around `Rc<RefCell<T>>` allowing immediate access to inner methods,
 without the need for `.borrow()` or `.borrow_mut()`,
 allowing for a more seamless pointer experience.

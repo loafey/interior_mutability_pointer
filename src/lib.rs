@@ -24,11 +24,15 @@ impl<T> Imp<T> {
     ///
     /// ```
     /// use interior_mutability_pointer::Imp;
-    /// let mut p = Imp::new(String::new());
+    /// let mut p = unsafe { Imp::new(String::new())};
     /// let p2 = p.clone();
     /// p.push_str("yoo"); // Modifies the inner value of both p and p2.
     /// ```
-    pub fn new(t: T) -> Self {
+    ///
+    /// # Safety
+    /// `DerefMut` implementation is unsound due to this library essentially working around the runtime safety provided
+    /// by using `RefCell`. See [Issue #2](https://github.com/samhamnam/interior_mutability_pointer/issues/2).
+    pub unsafe fn new(t: T) -> Self {
         Self {
             v: Rc::new(RefCell::new(t)),
         }
@@ -43,9 +47,9 @@ impl<T> Imp<T> {
     /// # Examples
     /// ```
     /// use interior_mutability_pointer::Imp;
-    /// let p1 = Imp::new(String::new());
+    /// let p1 = unsafe { Imp::new(String::new()) };
     /// let p2 = p1.clone();
-    /// let p3 = Imp::new(String::new());
+    /// let p3 = unsafe { Imp::new(String::new()) };
     /// println!("{}", Imp::ptr_eq(&p1, &p2)); // Prints true
     /// println!("{}", Imp::ptr_eq(&p1, &p3)); // Prints false
     /// ```

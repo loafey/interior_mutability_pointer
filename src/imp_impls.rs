@@ -135,7 +135,7 @@ mod add_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.add(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Add<T> + Copy + Add<Output = T>> Add<T> for Imp<T> {
@@ -145,7 +145,7 @@ mod add_impl {
             let a = *self.deref();
             let b = other;
             let r = a.add(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -182,7 +182,7 @@ mod bitand_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.bitand(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: BitAnd<T> + Copy + BitAnd<Output = T>> BitAnd<T> for Imp<T> {
@@ -192,7 +192,7 @@ mod bitand_impl {
             let a = *self.deref();
             let b = other;
             let r = a.bitand(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -231,7 +231,7 @@ mod bitor_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.bitor(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: BitOr<T> + Copy + BitOr<Output = T>> BitOr<T> for Imp<T> {
@@ -241,7 +241,7 @@ mod bitor_impl {
             let a = *self.deref();
             let b = other;
             let r = a.bitor(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -279,7 +279,7 @@ mod bitxor_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.bitxor(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: BitXor<T> + Copy + BitXor<Output = T>> BitXor<T> for Imp<T> {
@@ -289,7 +289,7 @@ mod bitxor_impl {
             let a = *self.deref();
             let b = other;
             let r = a.bitxor(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -324,7 +324,7 @@ mod not_impl {
         type Output = Imp<T::Output>;
 
         fn not(self) -> Self::Output {
-            Imp::new(self.v.borrow().not())
+            unsafe { Imp::new(self.v.borrow().not()) }
         }
     }
 }
@@ -343,7 +343,7 @@ mod div_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.div(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Div<T> + Copy + Div<Output = T>> Div<T> for Imp<T> {
@@ -353,7 +353,7 @@ mod div_impl {
             let a = *self.deref();
             let b = other;
             let r = a.div(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -391,7 +391,7 @@ mod mul_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.mul(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Mul<T> + Copy + Mul<Output = T>> Mul<T> for Imp<T> {
@@ -401,7 +401,7 @@ mod mul_impl {
             let a = *self.deref();
             let b = other;
             let r = a.mul(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -436,7 +436,7 @@ mod neg_impl {
         type Output = Imp<T::Output>;
 
         fn neg(self) -> Self::Output {
-            Imp::new(self.v.borrow().neg())
+            unsafe { Imp::new(self.v.borrow().neg()) }
         }
     }
 }
@@ -455,7 +455,7 @@ mod rem_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.rem(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Rem<T> + Copy + Rem<Output = T>> Rem<T> for Imp<T> {
@@ -465,7 +465,7 @@ mod rem_impl {
             let a = *self.deref();
             let b = other;
             let r = a.rem(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -503,7 +503,7 @@ mod shl_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.shl(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Shl<T> + Copy + Shl<Output = T>> Shl<T> for Imp<T> {
@@ -513,7 +513,7 @@ mod shl_impl {
             let a = *self.deref();
             let b = other;
             let r = a.shl(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -551,7 +551,7 @@ mod shr_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.shr(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Shr<T> + Copy + Shr<Output = T>> Shr<T> for Imp<T> {
@@ -561,7 +561,7 @@ mod shr_impl {
             let a = *self.deref();
             let b = other;
             let r = a.shr(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
@@ -599,7 +599,7 @@ mod sub_impl {
             let a = *self.deref();
             let b = *other.deref();
             let r = a.sub(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
     impl<T: Sub<T> + Copy + Sub<Output = T>> Sub<T> for Imp<T> {
@@ -609,7 +609,7 @@ mod sub_impl {
             let a = *self.deref();
             let b = other;
             let r = a.sub(b);
-            Imp::new(r)
+            unsafe { Imp::new(r) }
         }
     }
 }
