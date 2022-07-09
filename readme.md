@@ -7,7 +7,7 @@ The `DerefMut` implementation is unsound due to this library essentially working
 by using `RefCell`. See [Issue #2](https://github.com/samhamnam/interior_mutability_pointer/issues/2).\
 Due to this `Imp::new(..)` has been marked as `unsafe`.
 
-# Interior Mutability Monitor
+# Interior Mutability Pointer
 A wrapper around `Rc<RefCell<T>>` allowing immediate access to inner methods,
 without the need for `.borrow()` or `.borrow_mut()`,
 allowing for a more seamless pointer experience.
